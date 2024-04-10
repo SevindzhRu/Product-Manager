@@ -1,0 +1,13 @@
+{
+  "name": "productmanager",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "desafío numero 1 para el curso de BackEnd de Coder House 2024",
+  "main": "ProductManager.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

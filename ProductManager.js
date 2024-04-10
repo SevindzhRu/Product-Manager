@@ -1,55 +1,92 @@
+import fs from "fs";
+
 class ProductManager {
     constructor () {
-        this.products = [];
-    }
-    addProduct (title, description, price, thumbnail, code, stock) {
-        const  product = {
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock
-        }
-
-        if (this.products.length === 0) {
-            product.id = 1;
-        } else {
-            product.id = this.products[this.products.length - 1].id + 1
-        }
-        if (!product.title || !product.description || !product.price || !product.thumbnail || !product.code || !product.stock) {
-            console.log("Todos los campos son obligatorios")
-            return
-        }
-        if (this.products.some(p => p.code === product.code)) {
-            console.log("PEste código ya existe");
-            return
-        }
-        this.products.push(product)
+        this.products = []
+        this.path = './Productos.json'
     }
 
-    getProducts = ()  => {
-        return this.products
+    getProducts = async ()  => {
+        try {
+            const data = await fs.promises.readFile(this.path, "utf-8")
+            this.product = JSON.parse(data)
+            return this.product
+        }
+        catch (error){
+            return (error)
+        }
     }
 
-    getProductById (id) {
-        const product = this.products.find(p => p.id === id)
-        if (!product){
-            console.log ("Producto no encontrado")
+
+    addProduct  = async (newProduct) => {
+        this.getProducts()
+        try{
+            if (!newProduct.title ||
+                !newProduct.description ||
+                !newProduct.price ||
+                !newProduct.thumbnail ||
+                !newProduct.stock ||
+                !newProduct.code) return 'Error: Todos los campos son obligatorios'
+            let codProd = this.product.find(prod => prod.code === newProduct.code)
+            if (codProd) return 'Codigo duplicado' 
+            this.product.push({id: this.product.length + 1 , ...newProduct})
+            await fs.promises.writeFile(this.path, JSON.stringify(this.product,'utf-8','\t'))
+            return 'Producto cargado'
         }
-        return product
+        catch (error){
+            return(error)
+        }
+	}	
+
+    getProductById = async (id) => {
+        this.getProducts()
+        let producto = this.product.find(prod => prod.id === id)
+        if (!producto) return 'No encontrado' 
+        return producto
+    }
+
+    updateProduct  = async (id, updProd) => {
+        try{
+            let producto = this.product.find(prod => prod.id === id)
+            if (!producto) return 'No encontrado'
+            producto.title = updProd.title
+            producto.description = updProd.description
+            producto.price = updProd.price
+            producto.thumbnail = updProd.thumbnail
+            producto.stock = updProd.stock
+            producto.code= updProd.code
+            await fs.promises.writeFile(this.path, JSON.stringify(this.product,'utf-8','\t'))
+            return 'Producto Actualizado'
+            }
+        catch (error){
+            return(error)
+        }
+    }
+
+    deleteProduct  = async (idDelete) => {
+        try{
+            const remove = this.product.filter(prod => prod.id !== idDelete) 
+            if (!remove) return 'Id no encontrado'
+            console.log(remove)
+            await fs.promises.writeFile(this.path, JSON.stringify(remove,'utf-8','\t'))
+            return 'Producto eliminado'
+        }
+        catch (error){
+            return(error)
+        }
     }
 }
 
-// Ejemplo de uso 
-
-
-const nuevoProducto = new ProductManager ()
-
-nuevoProducto.addProduct('iPhone', 'Nuevo iPhone 14', 1599, 'https://unsplash.com/es/fotos/H-mzalaeXYU', 'COD1', 25)
-nuevoProducto.addProduct('AirPods', 'Audifonos inalambricos', 129, 'https://unsplash.com/es/fotos/IpIqJwxdiog', 'COD2', 29)
-
-
-console.log(nuevoProducto.getProducts())
-console.log(nuevoProducto.getProductById(1))
-console.log(nuevoProducto.getProductById(4))
+const producto = new ProductManager('./Productos.json');
+const fileUse = async() =>{
+    console.log(await producto.getProducts())
+    console.log(await producto.addProduct({title: 'producto prueba', description: 'Este es un producto prueba', price: 200, thumbnail: 'sin imagen', stock: 25, code: 'abc123'}))
+    console.log(await producto.addProduct({title: 'producto prueba2', description: 'Este es un producto prueba2', price: 200, thumbnail: 'sin imagen', stock: 200, code: 'abc124'}))
+    console.log(await producto.addProduct({title: 'producto prueba3', description: 'Este es un producto prueba3', price: 300, thumbnail: 'sin imagen', stock: 200, code: 'abc125'}))
+    console.log(await producto.getProducts())
+    console.log(await producto.updateProduct(1, {title: 'producto modificado', description: 'Este es un producto prueba', price: 200, thumbnail: 'sin imagen', stock: 200, code: 'abc125'}))
+    console.log(await producto.deleteProduct(2))
+    console.log(await producto.getProducts())
+    console.table(await producto.getProductById(2))
+}
+// fileUse();
