@@ -89,4 +89,4 @@ const fileUse = async() =>{
     console.log(await producto.getProducts())
     console.table(await producto.getProductById(2))
 }
-// fileUse();
+fileUse();
