@@ -1,43 +1,87 @@
 <div>
-    <h1>Listado de Productos en Tiempo Real</h1>
-            <ul id="listaProductos">
-            </ul>
+	<h1>Listado de Productos</h1>
+
+	{{! Crear nuevo producto  }}
+	{{!-- <form id="productForm" class="product-form">
+		<h4 class="form-group">Nuevo producto</h4>
+		<hr />
+		<div class="form-group">
+			<label for="title">Título:</label>
+			<input type="text" id="title" name="title" required />
+		</div>
+		<div class="form-group">
+			<label for="description">Descripción:</label>
+			<textarea
+				type="text"
+				id="description"
+				name="description"
+				required
+			></textarea>
+		</div>
+		<div class="form-group">
+			<label for="code">Código:</label>
+			<input type="text" id="code" name="code" required />
+		</div>
+		<div class="form-group">
+			<label for="category">Categoría:</label>
+			<input type="text" id="category" name="category" required />
+		</div>
+		<div class="form-line">
+			<div class="form-group">
+				<label for="price">Precio:</label>
+				<input type="number" id="price" name="price" step="0.01" required />
+			</div>
+			<div class="form-group">
+				<label for="stock">Stock:</label>
+				<input type="number" id="stock" name="stock" required />
+			</div>
+		</div>
+		<div class="form-button">
+			<button type="submit">Confirmar</button>
+		</div>
+	</form> --}}
+
+	{{! Lista de productos }}
+	<section class="table-products">
+		<table>
+			<thead>
+				<tr>
+					<th>Código</th>
+					<th>Categoría</th>
+					<th>Título</th>
+					<th>Descripción</th>
+					<th>Precio</th>
+					<th>Stock</th>
+					<th> </th>
+				</tr>
+			</thead>
+			<tbody id="productsList">
+				{{#each products}}
+					<tr id="product{{id}}">
+						<td>{{code}}</td>
+						<td>{{category}}</td>
+						<td>{{title}}</td>
+						<td>{{description}}</td>
+						<td>{{price}}</td>
+						<td>{{stock}}</td>
+						<td><button
+								class="delete-btn"
+								title="Eliminar producto"
+								onclick="deleteProduct({{id}})"
+							>Eliminar</button></td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</section>
 </div>
 
-<form action="" id="formulario">
-    <div class="">
-        <label for="titleID" class="form-label">Title:</label>
-        <input name="title" type="text" class="form-control" id="titleID">
+{{! socket.io }}
 
-        <label for="Description" class="form-label">Description:</label>
-        <input name="description" type="text" class="form-control" id="Description">
-
-        <label for="Category" class="form-label">Category:</label>
-        <input name="category" type="text" class="form-control" id="Category">
-
-        <label for="Price" class="form-label">Price:</label>
-        <input name="price" type="number" class="form-control" id="Price">
-
-        <label for="Status" class="form-label">Status:</label>
-        <input name="status" type="checkbox" class="" id="Status" checked>
-        <br>
-
-        <label for="Thumbnail" class="form-label">Thumbnail:</label>
-        <input name="thumbnail" type="file" class="form-control">
-
-        <label for="Code" class="form-label">Code:</label>
-        <input name="code" type="text" class="form-control" id="Code">
-
-        <label for="Stock" class="form-label">Stock:</label>
-        <input name="stock" type="number" class="form-control" id="Stock">
-
-        <input type="submit" value="Enviar">
-    </div>
-</form>
-
-
-<div id="products">
-
-</div>
 <script src="/socket.io/socket.io.js"></script>
-<script src="/static/js/realtime.js"></script>
+
+{{! Sweet alert }}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{{! JS cliente  }}
+<script src="/static/js/index.js"></script>

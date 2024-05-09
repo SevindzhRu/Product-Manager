@@ -5,10 +5,12 @@
 //  import ProductManager from "./src/ProductManager.js";
 
 // Importamos los routes de la api
-import productsRouter  from '../routes/products.router.js'
-import cartRouter from '../routes/cartManager.router.js'
-import viewsRouter from '../routes/views.routes.js'
-import socketProducts from "../public/js/socketproduct.js"
+import productsRouter  from './routes/products.router.js'
+import cartRouter from './routes/cartManager.router.js'
+import viewsRouter from './routes/views.routes.js'
+import ProductManager from "./ProductManager.js";
+
+const manager = new ProductManager("./src/Productos.json")
 
 // const PORT = 8080
 const app = express()
@@ -45,13 +47,25 @@ const socketServer = new Server(httpServer)
 app.set ("socketServer", socketServer)
 
 socketServer.on('connection', client => {
+
     console.log(`Cliente conectado, id ${client.id} desde ${client.handshake.address}`);
 
-    client.on('newMessage', data => {
-        console.log(`Mensaje recibido desde ${client.id}: ${data}`);
-        client.emit('newMessageConfirmation', 'OK');
-    });
+    client.on("newProduct", async (product) => {
+		const result = await manager.addProduct(product);
+		if (!result.err) {
+			// Devuelvo al cliente que cree nuevo producto
+			socketServer.emit("newProduct", product);
+		}
+		socketServer.emit("response", result);
+	});
+
+    client.on("deleteProduct", async (id) => {
+		const result = await manager.deleteProduct(id);
+		if (!result.err) {
+			socketServer.emit("deleteProduct", id);
+		}
+		socketServer.emit("response", result);
+	});
+
+
 });
-
-socketProducts(socketServer)
-

@@ -43,5 +43,32 @@
 		"thumbnail": "sin imagen",
 		"stock": 200,
 		"code": "abc128"
+	},
+	{
+		"id": 19,
+		"title": "producto 19",
+		"description": "Este es un producto prueba 9",
+		"price": 200,
+		"thumbnail": "sin imagen",
+		"stock": 200,
+		"code": "aaa998"
+	},
+	{
+		"id": 68,
+		"title": "producto 68",
+		"description": "Este es un producto prueba 68",
+		"price": 200,
+		"thumbnail": "sin imagen",
+		"stock": 200,
+		"code": "bbb689"
+	},
+	{
+		"id": 112,
+		"title": "producto 112",
+		"description": "Este es un producto prueba 112",
+		"price": 200,
+		"thumbnail": "sin imagen",
+		"stock": 200,
+		"code": "uuu112"
 	}
 ]
