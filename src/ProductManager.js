@@ -64,6 +64,7 @@ class ProductManager {
     }
 
     deleteProduct  = async (idDelete) => {
+        this.products = await this.getProducts()
         try{
             const remove = this.product.filter(prod => prod.id !== idDelete) 
             if (!remove) return 'Id no encontrado'

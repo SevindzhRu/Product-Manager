@@ -54,7 +54,8 @@ socketServer.on('connection', client => {
 		const result = await manager.addProduct(product);
 		if (!result.err) {
 			// Devuelvo al cliente que cree nuevo producto
-			socketServer.emit("newProduct", product);
+			socketServer.emit("addedProduct", product);
+		
 		}
 		socketServer.emit("response", result);
 	});
@@ -62,7 +63,8 @@ socketServer.on('connection', client => {
     client.on("deleteProduct", async (id) => {
 		const result = await manager.deleteProduct(id);
 		if (!result.err) {
-			socketServer.emit("deleteProduct", id);
+			socketServer.emit("deletedProduct", id);
+			
 		}
 		socketServer.emit("response", result);
 	});

@@ -1,10 +1,23 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-const wsServer = "ws://localhost:3080";
-const socketClient = io(wsServer);
+
+const socketClient = io();
 
 const productsList = document.getElementById("productsList");
 const productForm = document.getElementById("productForm");
+
+
+// Boton Eliminar
+const deleteProduct = (id) => {
+	socketClient.emit("deleteProduct", id);
+};
+
+// Esucha evento de eliminar producto
+socketClient.on("deletedProduct", (id) => {
+	window.location.reload()
+	const fila = document.getElementById(`product${id}`);
+	productsList.removeChild(fila);
+});
 
 // Evento del formulario - Agregar producto
 productForm.addEventListener("submit", async (e) => {
@@ -32,15 +45,12 @@ productForm.addEventListener("submit", async (e) => {
 	productForm.reset();
 });
 
-// Boton Eliminar
-const deleteProduct = async (id) => {
-	socketClient.emit("deleteProduct", id);
-};
 
 // --------- SOCKETS ----------
 
 // Escucha evento de nuevo producto
-socketClient.on("newProduct", (product) => {
+socketClient.on("addedProduct", (product) => {
+	window.location.reload()
 	const item = `<tr id="product${product.id}">
 	<td>${product.code}</td>
 	<td>${product.category}</td>
@@ -57,11 +67,6 @@ socketClient.on("newProduct", (product) => {
 	productsList.innerHTML += item;
 });
 
-// Esucha evento de eliminar producto
-socketClient.on("deleteProduct", (id) => {
-	const fila = document.getElementById(`product${id}`);
-	productsList.removeChild(fila);
-});
 
 // Esucha evento de respuesta
 socketClient.on("response", (result) => {
