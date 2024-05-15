@@ -26,15 +26,23 @@ router.get('/:pid', async (req, res) => {
 //POST
 router.post('/', async (req, res) => {
     let prod = req.body
+    const socket = req.app.get("socketServer")
+    console.log("nuevo producto", prod)
     if (!prod.title || !prod.description) {
         return res.status(400).send({
             status: 'error',
             messaje: 'Todos los campos son necesarios'
         })
     }
+
+    const create = await producto.addProduct(prod)
+
+    console.log("evento se esta emitiendo")
+    socket.emit("addedProduct", create)
+
     res.send({
         status: "Sucess",
-        messaje: await producto.addProduct(prod)
+        messaje: create
     })
 })
 

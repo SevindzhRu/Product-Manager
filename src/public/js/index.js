@@ -1,4 +1,4 @@
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+import Swal from 'sweetalert2'
 
 
 const socketClient = io();
@@ -49,22 +49,8 @@ productForm.addEventListener("submit", async (e) => {
 // --------- SOCKETS ----------
 
 // Escucha evento de nuevo producto
-socketClient.on("addedProduct", (product) => {
+socketClient.on("addedProduct", () => {
 	window.location.reload()
-	const item = `<tr id="product${product.id}">
-	<td>${product.code}</td>
-	<td>${product.category}</td>
-	<td>${product.title}</td>
-	<td>${product.description}</td>
-	<td>${product.price}</td>
-	<td>${product.stock}</td>
-	<td>
-		<button	class="delete-btn" title="Eliminar producto" onclick="deleteProduct(${product.id})">
-		Eliminar
-		</button>
-	</td>
-	</tr>`;
-	productsList.innerHTML += item;
 });
 
 

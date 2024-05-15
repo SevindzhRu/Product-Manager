@@ -88,5 +88,23 @@
 		"thumbnail": "sin imagen",
 		"stock": 600,
 		"code": "qwe678"
+	},
+	{
+		"id": 23,
+		"title": "producto 23",
+		"description": "Este es un producto prueba 23",
+		"price": 200,
+		"thumbnail": "sin imagen",
+		"stock": 340,
+		"code": "rfg675"
+	},
+	{
+		"id": 32,
+		"title": "producto 32",
+		"description": "Este es un producto prueba 32",
+		"price": 200,
+		"thumbnail": "sin imagen",
+		"stock": 340,
+		"code": "kjh430"
 	}
 ]
