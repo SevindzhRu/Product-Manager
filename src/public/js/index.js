@@ -1,75 +1,54 @@
-import Swal from 'sweetalert2'
 
 
 const socketClient = io();
 
-const productsList = document.getElementById("productsList");
-const productForm = document.getElementById("productForm");
+// const productsList = document.getElementById("productsList");
+// const productForm = document.getElementById("productForm");
 
 
 // Boton Eliminar
-const deleteProduct = (id) => {
-	socketClient.emit("deleteProduct", id);
-};
+// const deleteProduct = (id) => {
+// 	socketClient.emit("deleteProduct", id);
+// };
 
 // Esucha evento de eliminar producto
-socketClient.on("deletedProduct", (id) => {
-	window.location.reload()
-	const fila = document.getElementById(`product${id}`);
-	productsList.removeChild(fila);
-});
+// socketClient.on("deletedProduct", (id) => {
+// 	window.location.reload()
+// 	const fila = document.getElementById(`product${id}`);
+// 	productsList.removeChild(fila);
+// });
 
 // Evento del formulario - Agregar producto
-productForm.addEventListener("submit", async (e) => {
-	e.preventDefault();
+// productForm.addEventListener("submit", async (e) => {
+// 	e.preventDefault();
 
-	const title = document.getElementById("title").value;
-	const description = document.getElementById("description").value;
-	const code = document.getElementById("code").value;
-	const category = document.getElementById("category").value;
-	const stock = document.getElementById("stock").value;
-	const price = document.getElementById("price").value;
+// 	const title = document.getElementById("title").value;
+// 	const description = document.getElementById("description").value;
+// 	const code = document.getElementById("code").value;
+// 	const category = document.getElementById("category").value;
+// 	const stock = document.getElementById("stock").value;
+// 	const price = document.getElementById("price").value;
 
-	const product = {
-		title,
-		description,
-		code,
-		price,
-		stock,
-		category,
-	};
+// 	const product = {
+// 		title,
+// 		description,
+// 		code,
+// 		price,
+// 		stock,
+// 		category,
+// 	};
 
-	// Emite evento de nuevo producto
-	socketClient.emit("newProduct", product);
+// 	// Emite evento de nuevo producto
+// 	socketClient.emit("newProduct", product);
 
-	productForm.reset();
-});
+// 	productForm.reset();
+// });
 
-
-// --------- SOCKETS ----------
 
 // Escucha evento de nuevo producto
 socketClient.on("addedProduct", () => {
 	window.location.reload()
+
 });
 
 
-// Esucha evento de respuesta
-socketClient.on("response", (result) => {
-	if (result.err) {
-		Swal.fire({
-			text: result.msg,
-			allowOutsideClick: false,
-			icon: "error",
-		});
-	} else {
-		Swal.fire({
-			text: result.msg,
-			allowOutsideClick: false,
-			icon: "success",
-		});
-	}
-
-	const fila = document.getElementById(`product${id}`);
-	productsList.removeChild(fila);
-});

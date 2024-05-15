@@ -106,5 +106,32 @@
 		"thumbnail": "sin imagen",
 		"stock": 340,
 		"code": "kjh430"
+	},
+	{
+		"id": 33,
+		"title": "producto 33",
+		"description": "Este es un producto prueba 33",
+		"price": 200,
+		"thumbnail": "sin imagen",
+		"stock": 340,
+		"code": "kjh433"
+	},
+	{
+		"id": 34,
+		"title": "producto 34",
+		"description": "Este es un producto prueba 34",
+		"price": 200,
+		"thumbnail": "sin imagen",
+		"stock": 340,
+		"code": "kjh444"
+	},
+	{
+		"id": 35,
+		"title": "producto 35",
+		"description": "Este es un producto prueba 35",
+		"price": 200,
+		"thumbnail": "sin imagen",
+		"stock": 340,
+		"code": "yvp309"
 	}
 ]
